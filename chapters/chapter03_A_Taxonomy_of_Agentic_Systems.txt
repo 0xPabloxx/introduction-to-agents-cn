@@ -1,0 +1,124 @@
+================================================================================
+A Taxonomy of Agentic Systems
+================================================================================
+页码: 14 - 18
+图片数量: 1
+================================================================================
+
+Introduction to Agents and Agent architectures
+November 2025
+14
+A Taxonomy of Agentic Systems
+Understanding the 5-step operational loop is the first part of the puzzle. The second is 
+recognizing that this loop can be scaled in complexity to create different classes of agents. 
+For an architect or product leader, a key initial decision is scoping what kind of agent to build.
+We can classify agentic systems into a few broad levels, each building on the capabilities of 
+the last.
+ 
+ 
+ 
+ 
+Figure 2: Agentic system in 5 steps
+
+
+[IMAGE_2: image_002_page_14_1.png - 位于第 14 页]
+
+
+Introduction to Agents and Agent architectures
+November 2025
+15
+Level 0: The Core Reasoning System
+Before we can have an agent, we must start with the "Brain" in its most basic form: the 
+reasoning engine itself. In this configuration, a Language Model (LM) operates in isolation, 
+responding solely based on its vast pre-trained knowledge without any tools, memory, or 
+interaction with the live environment. 
+Its strength lies in this extensive training, allowing it to explain established concepts and plan 
+how to approach solving a problem with great depth. The trade-off is a complete lack of real-
+time awareness; it is functionally "blind" to any event or fact outside its training data. 
+For instance, it can explain the rules of professional baseball and the complete history of the 
+New York Yankees. But if you ask, "What was the final score of the Yankees game last night?", 
+it would be unable to answer. That game is a specific, real-world event that happened after 
+its training data was collected, so the information simply doesn't exist in its knowledge.
+Level 1: The Connected Problem-Solver
+At this level, the reasoning engine becomes a functional agent by connecting to and utilizing 
+external tools - the "Hands" component of our architecture. Its problem-solving is no longer 
+confined to its static, pre-trained knowledge.
+Using the 5-step loop, the agent can now answer our previous question. Given the "Mission": 
+"What was the final score of the Yankees game last night?", its "Think" step recognizes this 
+as a real-time data need. Its "Act" step then invokes a tool, like a Google Search API with the 
+proper date and search terms. It "Observes" the search result (e.g., "Yankees won 5-3"), and 
+synthesizes that fact into a final answer.
+
+Introduction to Agents and Agent architectures
+November 2025
+16
+This fundamental ability to interact with the world - whether using a search tool for a score , 
+a financial API for a live stock price, or a database via Retrieval-Augmented Generation (RAG) 
+is the core capability of a Level 1 agent.
+Level 2: The Strategic Problem-Solver
+Level 2 marks a significant expansion in capability, moving from executing simple tasks to 
+strategically planning complex, multi-part goals. The key skill that emerges here is context 
+engineering: the agent's ability to actively select, package, and manage the most relevant 
+information for each step of its plan.
+An agent's accuracy depends on a focused, high-quality context. Context engineering 
+curates the model's limited attention to prevent overload and ensure efficient performance.
+For instance, consider the "Mission": "Find a good coffee shop halfway between my office 
+at 1600 Amphitheatre Parkway, Mountain View, and my client's office at 1 Market St, 
+San Francisco." 
+A Level 2 agent will start creating a plan:
+1.	 Think: "I must first find the halfway point."
+•	 Act: Call the Maps tool with both addresses.
+•	 Observe: "The halfway point is Millbrae, CA."
+2.	Think: "Now I must find coffee shops in Millbrae. The user asked for 'good' ones, so I will 
+search for places with a 4-star rating or higher."
+
+Introduction to Agents and Agent architectures
+November 2025
+17
+•	 Act: Call the google_places tool with query="coffee shop in Millbrae, CA", 
+min_rating=4.0. (This is context engineering - it automatically created a new, focused 
+search query from the previous step's output ).
+•	 Observe: "The search returns 'Millbrae Coffee' and 'The Daily Grind'."
+3.	 Think: "I will synthesize these results and present them to the user."
+This strategic planning also enables proactive assistance, like an agent that reads a long 
+flight confirmation email, engineers the key context (flight number, date), and acts by adding 
+it to your calendar.
+Level 3: The Collaborative Multi-Agent System
+At the highest level, the paradigm shifts entirely. We move away from building a single, all-
+powerful "super-agent" and toward a "team of specialists" working in concert, a model that 
+directly mirrors a human organization. The system's collective strength lies in this division of 
+labor. 
+Here, agents treat other agents as tools. Imagine a "Project Manager" agent receiving a 
+"Mission": "Launch our new 'Solaris' headphones."
+The Project Manager agent doesn't do the entire work itself. It Acts by creating new Missions 
+for its team of specialized agents much like how it works in the real life:
+1.	 Delegates to MarketResearchAgent: "Analyze competitor pricing for noise-canceling 
+headphones. Return a summary document by tomorrow."
+2.	Delegates to MarketingAgent: "Draft three versions of a press release using the 'Solaris' 
+product spec sheet as context."
+
+Introduction to Agents and Agent architectures
+November 2025
+18
+3.	 Delegates to WebDevAgent: "Generate the new product page HTML based on the 
+attached design mockups."
+This collaborative model, while currently constrained by the reasoning limitations of today's 
+LMs, represents the frontier of automating entire, complex business workflows from start 
+to finish.
+Level 4: The Self-Evolving System
+Level 4 represents a profound leap from delegation to autonomous creation and adaptation. 
+At this level, an agentic system can identify gaps in its own capabilities and dynamically 
+create new tools or even new agents to fill them. It moves from using a fixed set of resources 
+to actively expanding them.
+Following our example, the "Project Manager" agent, tasked with the 'Solaris' launch, might 
+realize it needs to monitor social media sentiment, but no such tool or agent exists on 
+its team.
+1.	 Think (Meta-Reasoning): "I must track social media buzz for 'Solaris,' but I lack 
+the capability."
+2.	Act (Autonomous Creation): Instead of failing, it invokes a high-level AgentCreator tool 
+with a new mission: "Build a new agent that monitors social media for keywords 'Solaris 
+headphones', performs sentiment analysis, and reports a daily summary."
+3.	 Observe: A new, specialized SentimentAnalysisAgent is created, tested, and added to the 
+team on the fly, ready to contribute to the original mission.
+This level of autonomy, where a system can dynamically expand its own capabilities, turns a 
+team of agents into a truly learning and evolving organization.

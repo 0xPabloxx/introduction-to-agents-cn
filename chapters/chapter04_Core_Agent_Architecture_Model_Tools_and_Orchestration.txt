@@ -1,0 +1,707 @@
+================================================================================
+Core Agent Architecture: Model, Tools, and Orchestration
+================================================================================
+页码: 19 - 46
+图片数量: 5
+================================================================================
+
+Introduction to Agents and Agent architectures
+November 2025
+19
+Core Agent Architecture: Model, Tools, 
+and Orchestration
+We know what an agent does and how it can scale. But how do we actually build it? 
+The transition from concept to code lies in the specific architectural design of its three 
+core components.
+Model: The “Brain” of your AI Agent
+The LM is the reasoning core of your agent, and its selection is a critical architectural 
+decision that dictates your agent's cognitive capabilities, operational cost, and speed. 
+However, treating this choice as a simple matter of picking the model with the highest 
+benchmark score is a common path to failure. An agent's success in a production 
+environment is rarely determined by generic academic benchmarks.
+Real-world success demands a model that excels at agentic fundamentals: superior 
+reasoning to navigate complex, multi-step problems and reliable tool use to interact with 
+the world7.
+To do this well, start by defining the business problem, then test models against metrics 
+that directly map to that outcome. If your agent needs to write code, test it on your private 
+codebase. If it processes insurance claims, evaluate its ability to extract information 
+from your specific document formats. This analysis must then be cross-referenced with 
+the practicalities of cost and latency. The "best" model is the one that sits at the optimal 
+intersection of quality, speed, and price for your specific task8.
+
+Introduction to Agents and Agent architectures
+November 2025
+20
+You may choose more than one model, a "team of specialists." You don't use a sledgehammer 
+to crack a nut. A robust agent architecture might use a frontier model like Gemini 2.5 Pro for 
+the heavy lifting of initial planning and complex reasoning, but then intelligently route simpler, 
+high-volume tasks—like classifying user intent or summarizing text—to a much faster and 
+more cost-effective model like Gemini 2.5 Flash. Model routing might be automatic or hard-
+coded but is a key strategy for optimizing both performance and cost9.
+The same principle applies to handling diverse data types. While a natively multimodal 
+model like Gemini live mode10 offers a streamlined path to processing images and audio, 
+an alternative is to use specialized tools like the Cloud Vision API11 or Speech-to-Text API12. 
+In this pattern, the world is first converted to text, which is then passed to a language-only 
+model for reasoning. This adds flexibility and allows for best-of-breed components, but also 
+introduces significant complexity.
+Finally, the AI landscape is in a state of constant, rapid evolution. The model you choose 
+today will be superseded in six months. A "set it and forget it" mindset is unsustainable. 
+Building for this reality means investing in a nimble operational framework—an "Agent Ops" 
+practice13. With a robust CI/CD pipeline that continuously evaluates new models against your 
+key business metrics, you can de-risk and accelerate upgrades, ensuring your agent is always 
+powered by the best brain available without requiring a complete architectural overhaul.
+Tools: The "Hands" of your AI Agent
+If the model is the agent's brain, tools are the hands that connect its reasoning to reality. 
+They allow the agent to move beyond its static training data to retrieve real-time information 
+and take action in the world. A robust tool interface is a three-part loop: defining what a tool 
+can do, invoking it, and observing the result.
+
+Introduction to Agents and Agent architectures
+November 2025
+21
+Here are a few of the main types of tools agent builders will put into the “hands” of 
+their agents.  For a more complete deep dive see the agent tools focused whitepaper in 
+this series.
+Retrieving Information: Grounding in Reality 
+The most foundational tool is the ability to access up-to-date information. Retrieval-
+Augmented Generation (RAG) gives the agent a "library card" to query external knowledge, 
+often stored in Vector Databases or Knowledge Graphs, ranging from internal company 
+documents to web knowledge via Google Search. For structured data, Natural Language to 
+SQL (NL2SQL) tools allow the agent to query databases to answer analytic questions like, 
+"What were our top-selling products last quarter?" By looking things up before speaking—
+whether in a document or a database—the agent grounds itself in fact, dramatically 
+reducing hallucinations.
+Executing Actions: Changing the World 
+The true power of agents is unleashed when they move from reading information to actively 
+doing things. By wrapping existing APIs and code functions as tools, an agent can send an 
+email, schedule a meeting, or update a customer record in ServiceNow. For more dynamic 
+tasks, an agent can write and execute code on the fly. In a secure sandbox, it can generate 
+a SQL query or a Python script to solve a complex problem or perform a calculation, 
+transforming it from a knowledgeable assistant into an autonomous actor14.
+
+Introduction to Agents and Agent architectures
+November 2025
+22
+This also includes tools for human interaction. An agent can use a Human in the Loop 
+(HITL) tool to pause its workflow and ask for confirmation (e.g., ask_for_confirmation()) 
+or request specific information from a user interface (e.g., ask_for_date_input()), 
+ensuring a person is involved in critical decisions. HITL could be implemented via SMS text 
+messaging and a task in a database.
+Function Calling: Connecting Tools to your Agent
+For an agent to reliably do “function calling” and use tools, it needs clear instructions, secure 
+connections, and orchestration15. Longstanding standards like the OpenAPI specification 
+provide this, giving the agent a structured contract that describes a tool's purpose, its 
+required parameters, and its expected response. This schema lets the model generate the 
+correct function call every time and interpret the API response. For simpler discovery and 
+connection to tools, open standards like the Model Context Protocol (MCP) have become 
+popular because they are more convenient16. Additionally, a few models have native tools, 
+like Gemini with native Google Search, where the function invocation happens as part of the 
+LM call itself17.
+The Orchestration Layer
+If the model is the agent's brain and the tools are its hands, the orchestration layer is 
+the central nervous system that connects them. It is the engine that runs the "Think, Act, 
+Observe" loop, the state machine that governs the agent's behavior, and the place where 
+a developer's carefully crafted logic comes to life. This layer is not just plumbing; it is the 
+conductor of the entire agentic symphony, deciding when the model should reason, which 
+tool should act, and how the results of that action should inform the next movement.
+
+Introduction to Agents and Agent architectures
+November 2025
+23
+Core Design Choices
+The first architectural decision is determining the agent's degree of autonomy. The choice 
+exists on a spectrum. At one end, you have deterministic, predictable workflows that call an 
+LM as a tool for a specific task—a sprinkle of AI to augment an existing process. At the other 
+end, you have the LM in the driver's seat, dynamically adapting, planning and executing tasks 
+to achieve a goal.
+A parallel choice is the implementation method. No-code builders offer speed and 
+accessibility, empowering business users to automate structured tasks and build simple 
+agents rapidly. For more complex, mission-critical systems, code-first frameworks, such as 
+Google's Agent Development Kit (ADK)18, provide the deep control, customizability, and 
+integration capabilities that engineers require.
+Regardless of the approach, a production-grade framework is essential. It must be open, 
+allowing you to plug in any model or tool to prevent vendor lock-in. It must provide precise 
+control, enabling a hybrid approach where the non-deterministic reasoning of an LM is 
+governed by hard-coded business rules. Most importantly, the framework must be built for 
+observability. When an agent behaves unexpectedly, you cannot simply put a breakpoint in 
+the model's "thought." A robust framework generates detailed traces and logs, exposing the 
+entire reasoning trajectory: the model's internal monologue, the tool it chose, the parameters 
+it generated, and the result it observed.
+Instruct with Domain Knowledge and Persona 
+Within this framework, the developer's most powerful lever is to instruct the agent with 
+domain knowledge and a distinct persona. This is accomplished through a system prompt 
+or a set of core instructions. This isn't just a simple command; it is the agent's constitution. 
+
+Introduction to Agents and Agent architectures
+November 2025
+24
+Here, you tell it, You are a helpful customer support agent for Acme Corp, ...  
+and provide constraints, desired output schema, rules of engagement, a specific tone of 
+voice, and explicit guidance on when and why it should use its tools. A few example scenarios 
+in the  instructions are usually very effective.
+Augment with Context 
+The agent's “memory” is orchestrated into the LM context window at runtime. For a more 
+complete deep dive see the agent memory focused whitepaper in this series.
+Short-term memory is the agent's active "scratchpad," maintaining the running history of the 
+current conversation. It tracks the sequence of (Action, Observation) pairs from the ongoing 
+loop, providing the immediate context the model needs to decide what to do next.  This may 
+be implemented as abstractions like state, artifacts, sessions or threads.
+Long-term memory provides persistence across sessions. Architecturally, this is almost 
+always implemented as another specialized tool—a RAG system connected to a vector 
+database or search engine. The orchestrator gives the agent the ability to pre-fetch and to 
+actively query its own history, allowing it to "remember" a user's preferences or the outcome 
+of a similar task from weeks ago for a truly personalized and continuous experience.19
+Multi-Agent Systems and Design Patterns
+As tasks grow in complexity, building a single, all-powerful "super-agent" becomes inefficient. 
+The more effective solution is to adopt a "team of specialists" approach, which mirrors 
+a human organization. This is the core of a multi-agent system: a complex process is 
+
+Introduction to Agents and Agent architectures
+November 2025
+25
+segmented into discrete sub-tasks, and each is assigned to a dedicated, specialized AI agent. 
+This division of labor allows each agent to be simpler, more focused, and easier to build, test, 
+and maintain, which is ideal for dynamic or long-running business processes.
+Architects may rely on proven agentic design patterns, though agent capabilities and thus 
+patterns are evolving rapidly.20 For dynamic or non-linear tasks, the Coordinator pattern is 
+essential. It introduces a "manager" agent that analyzes a complex request, segments the 
+primary task, and intelligently routes each sub-task to the appropriate specialist agent (like a 
+researcher, a writer, or a coder). The coordinator then aggregates the responses from each 
+specialist to formulate a final, comprehensive answer.
+ 
+ 
+ 
+Figure 3: The “iterative refinement” pattern from  
+https://cloud.google.com/architecture/choose-design-pattern-agentic-ai-system
+For more linear workflows, the Sequential pattern is a better fit, acting like a digital assembly 
+line where the output from one agent becomes the direct input for the next. Other key 
+patterns focus on quality and safety. The Iterative Refinement pattern creates a feedback 
+loop, using a "generator" agent to create content and a "critic" agent to evaluate it against 
+
+
+[IMAGE_3: image_003_page_25_1.png - 位于第 25 页]
+
+
+Introduction to Agents and Agent architectures
+November 2025
+26
+quality standards. For high-stakes tasks, the Human-in-the-Loop (HITL) pattern is critical, 
+creating a deliberate pause in the workflow to get approval from a person before an agent 
+takes a significant action.
+Agent Deployment and Services
+After you have built a local agent, you will want to deploy it to a server where it runs all the 
+time and where other people and agents can use it.  Continuing our analogy, deployment and 
+services would be the body and legs for our agent.  An agent requires several services to be 
+effective, session history and memory persistence, and more.  As an agent builder, you will 
+also be responsible for deciding what you log, and what security measures you take for data 
+privacy and data residency and regulation compliance. All of these services are in scope, 
+when deploying agents to production. 
+Luckily, agent builders can rely on decades of application hosting infrastructure. Agents are 
+a new form of software after all and many of the same principles apply.  Builders can rely 
+on purpose-built, agent specific, deployment options like Vertex AI Agent Engine which 
+support runtime and everything else in one platform21.  For software developers who want to 
+control their application stacks more directly, or deploy agents within their existing DevOps 
+infrastructure, any agent and most agent services can be added to a docker container and 
+deployed onto industry standard runtimes like Cloud Run or GKE22.
+
+Introduction to Agents and Agent architectures
+November 2025
+27
+ 
+ 
+ 
+Figure 4: Vertex AI Agent builder from  
+https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/overview
+If you are not a software developer and a DevOps expert, the process of deploying your first 
+agent might be daunting.  Many agent frameworks make this easy with a deploy command 
+or a dedicated platform to deploy the agent, and these should be used for early exploration 
+and onboarding.  Ramping up to a secure and production ready environment will usually 
+require a bigger investment of time and application of best practices, including CI/CD and 
+automated testing for your agents23.
+Agent Ops: A Structured Approach to the Unpredictable
+As you build your first agents, you will be manually testing the behavior, over and over 
+again.  When you add a feature, does it work?  When you fix a bug, did you cause a 
+different problem?  Testing is normal for software development but it works differently with 
+generative AI.
+
+
+[IMAGE_4: image_004_page_27_1.png - 位于第 27 页]
+
+
+Introduction to Agents and Agent architectures
+November 2025
+28
+The transition from traditional, deterministic software to stochastic, agentic systems requires 
+a new operational philosophy. Traditional software unit tests could simply assert output == 
+expected; but that doesn’t work when an agent's response is probabilistic by design. Also, 
+because language is complicated, it usually requires a LM to evaluate “quality” – that the 
+agent's response does all of what it should, nothing it shouldn’t, and with proper tone.
+ 
+ 
+Figure 5: Relationships between the operational domains of DevOps, MLOps, and GenAIOps from  
+https://medium.com/@sokratis.kartakis/genai-in-production-mlops-or-genaiops-25691c9becd0 
+Agent Ops is the disciplined, structured approach to managing this new reality. It is a natural 
+evolution of DevOps and MLOps, tailored for the unique challenges of building, deploying, 
+and governing AI agents, turning unpredictability from a liability into a managed, measurable, 
+and reliable feature.24 For a more complete deep dive see the agent quality focused 
+whitepaper in this series.
+
+
+[IMAGE_5: image_005_page_28_1.png - 位于第 28 页]
+
+
+Introduction to Agents and Agent architectures
+November 2025
+29
+Measure What Matters: Instrumenting Success Like an 
+A/B Experiment
+Before you can improve your agent, you must define what "better" means in the context of 
+your business. Frame your observability strategy like an A/B test and ask yourself: what are 
+the Key Performance Indicators (KPIs) that prove the agent is delivering value? These metrics 
+should go beyond technical correctness and measure real-world impact: goal completion 
+rates, user satisfaction scores, task latency, operational cost per interaction, and—most 
+importantly—the impact on business goals like revenue, conversion or customer retention. 
+This top-down view will guide the rest of your testing, puts you on the path to metrics driven 
+development, and will let you calculate a return on investment.
+Quality Instead of Pass/Fail: Using a LM Judge
+Business metrics don't tell you if the agent is behaving correctly. Since a simple pass/fail is 
+impossible, we shift to evaluating for quality using an "LM as Judge." This involves using a 
+powerful model to assess the agent's output against a predefined rubric: Did it give the right 
+answer? Was the response factually grounded? Did it follow instructions? This automated 
+evaluation, run against a golden dataset of prompts, provides a consistent measure 
+of quality.
+Creating the evaluation datasets—which include the ideal (or "golden") questions and correct 
+responses—can be a tedious process. To build these, you should sample scenarios from 
+existing production or development interactions with the agent. The dataset must cover the 
+full breadth of use cases that you expect your users to engage with, plus a few unexpected 
+ones. While investment in evaluation pays off quickly, evaluation results should always be 
+
+Introduction to Agents and Agent architectures
+November 2025
+30
+reviewed by a domain expert before being accepted as valid. Increasingly, the curation and 
+maintenance of these evaluations is becoming a key responsibility for Product Managers with 
+the support from Domain experts.
+Metrics-Driven Development: Your Go/No-Go for Deployment
+Once you have automated dozens of evaluation scenarios and established trusted quality 
+scores, you can confidently test changes to your development agent. The process is simple: 
+run the new version against the entire evaluation dataset, and directly compare its scores 
+to the existing production version. This robust system eliminates guesswork, ensuring you 
+are confident in every deployment. While automated evaluations are critical, don't forget 
+other important factors like latency, cost, and task success rates. For maximum safety, use 
+A/B deployments to slowly roll out new versions and compare these real-world production 
+metrics alongside your simulation scores.
+Debug with OpenTelemetry Traces: Answering "Why?"
+When your metrics dip or a user reports a bug, you need to understand "why." An 
+OpenTelemetry trace is a high-fidelity, step-by-step recording of the agent's entire execution 
+path (trajectory), allowing you to debug the agent's steps.25 With traces, you can see the 
+exact prompt sent to the model, the model's internal reasoning (if available), the specific 
+tool it chose to call, the precise parameters it generated for that tool, and the raw data that 
+came back as an observation. Traces can be complicated the first time you look at them but 
+they provide the details needed to diagnose and fix the root cause of any issue.  Important 
+trace details may be turned into metrics, but reviewing traces is primarily for debugging, not 
+
+Introduction to Agents and Agent architectures
+November 2025
+31
+overviews of performance. Trace data can be seamlessly collected in platforms like Google 
+Cloud Trace, which visualize and search across vast quantities of traces, streamlining root 
+cause analysis.
+Cherish Human Feedback: Guiding Your Automation
+Human feedback is not an annoyance to be dealt with; it is the most valuable and data-
+rich resource you have for improving your agent. When a user files a bug report or clicks 
+the "thumbs down" button, they are giving you a gift: a new, real-world edge case that 
+your automated eval scenarios missed. Collecting and aggregating this data is critical; 
+when you see a statistically significant number of similar reports or metric dips, you must 
+tie the occurrences back to your analytics platform to generate insights and trigger alerts 
+for operational issues. An effective Agent Ops process "closes the loop" by capturing this 
+feedback, replicating the issue, and converting that specific scenario into a new, permanent 
+test case in your evaluation dataset. This ensures you not only fix the bug but also vaccinate 
+the system against that entire class of error ever happening again.
+Agent Interoperability
+Once you build your high quality agents, you want to be able to interconnect them with users 
+and other agents. In our body parts analogy, this would be the face of the Agent. There is 
+a difference between connecting to agents versus connecting agents with data and APIs; 
+Agents are not tools26. Let’s assume you already have tools wired into your agents, now let’s 
+consider how you bring your agents into a wider ecosystem.
+
+Introduction to Agents and Agent architectures
+November 2025
+32
+Agents and Humans
+The most common form of agent-human interaction is through a user interface. In its 
+simplest form, this is a chatbot, where a user types a request and the agent, acting as a 
+backend service, processes it and returns a block of text. More advanced agents can provide 
+structured data, like JSON, to power rich, dynamic front-end experiences. Human in the 
+loop (HITL) interaction patterns include intent refinement, goal expansion, confirmation, and 
+clarification requests.
+Computer use is a category of tool where the LM takes control of a user interface, often with 
+human interaction and oversight. A computer use enabled agent can decide that the next 
+best action is to navigate to a new page, highlight a specific button, or pre-fill a form with 
+relevant information27. 
+Instead of an agent using an interface on behalf of the user, the LM can change the UI to 
+meet the needs of the moment. This can be done with Tools which control UI (MCP UI)28, or 
+specialized UI messaging systems which can sync client state with an agent (AG UI)29, and 
+even generation of bespoke interfaces (A2UI)30.
+Of course, human interaction is not limited to screens and keyboards. Advanced agents are 
+breaking the text barrier and moving into real-time, multimodal communication with "live 
+mode" creating a more natural, human-like connection. Technologies like the Gemini Live 
+API31 enable bidirectional streaming, allowing a user to speak to an agent and interrupt it, just 
+as they would in a natural conversation.
+This capability fundamentally changes the nature of agent-human collaboration. With access 
+to a device's camera and microphone, the agent can see what the user sees and hear what 
+they say, responding with generated speech at a latency that mimics human conversation. 
+
+Introduction to Agents and Agent architectures
+November 2025
+33
+This opens up a vast array of use cases that are simply impossible with text, from a 
+technician receiving hands-free guidance while repairing a piece of equipment to a shopper 
+getting real-time style advice. It makes the agent a more intuitive and accessible partner.
+Agents and Agents
+Just as agents must connect with humans, they must also connect with each other. As an 
+enterprise scales its use of AI, different teams will build different specialized agents. Without 
+a common standard, connecting them would require building a tangled web of brittle, custom 
+API integrations that are impossible to maintain. The core challenge is twofold: discovery 
+(how does my agent find other agents and know what they can do?) and communication (how 
+do we ensure they speak the same language?).
+The Agent2Agent (A2A) protocol is the open standard designed to solve this problem. It 
+acts as a universal handshake for the agentic economy. A2A allows any agent to publish a 
+digital "business card," known as an Agent Card. This simple JSON file advertises the agent's 
+capabilities, its network endpoint, and the security credentials required to interact with it. 
+This makes discovery simple and standardized. As opposed to MCP which focuses on solving 
+transactional requests, Agent 2 Agent communication is typically for additional problem 
+solving. 
+Once discovered, agents communicate using a task-oriented architecture. Instead of a 
+simple request-response, interactions are framed as asynchronous "tasks." A client agent 
+sends a task request to a server agent, which can then provide streaming updates as it works 
+on the problem over a long-running connection. This robust, standardized communication 
+protocol is the final piece of the puzzle, enabling the collaborative, Level 3 multi-agent 
+systems that represent the frontier of automation. A2A transforms a collection of isolated 
+agents into a true, interoperable ecosystem.
+
+Introduction to Agents and Agent architectures
+November 2025
+34
+Agents and Money
+As AI agents do more tasks for us, a few of those tasks involve buying or selling, negotiating 
+or facilitating transactions. The current web is built for humans clicking "buy," the 
+responsibility is on the human. If an autonomous agent clicks “buy” it creates a crisis of 
+trust – if something goes wrong, who is at fault? These are complex issues of authorization, 
+authenticity, and accountability. To unlock a true agentic economy, we need new standards 
+that allow agents to transact securely and reliably on behalf of their users.
+This emerging area is far from established, but two key protocols are paving the way. The 
+Agent Payments Protocol (AP2) is an open protocol designed to be the definitive language 
+for agentic commerce. It extends protocols like A2A by introducing cryptographically-signed 
+digital "mandates." These act as verifiable proof of user intent, creating a non-repudiable 
+audit trail for every transaction. This allows an agent to securely browse, negotiate, and 
+transact on a global scale based on delegated authority from the user. Complementing this 
+is x402, an open internet payment protocol that uses the standard HTTP 402 "Payment 
+Required" status code. It enables frictionless, machine-to-machine micropayments, allowing 
+an agent to pay for things like API access or digital content on a pay-per-use basis without 
+needing complex accounts or subscriptions. Together, these protocols are building the 
+foundational trust layer for the agentic web.
+Securing a Single Agent: The Trust Trade-Off
+When you create your first AI agent, you immediately face a fundamental tension: the 
+trade-off between utility and security. To make an agent useful, you must give it power—the 
+autonomy to make decisions and the tools to perform actions like sending emails or querying 
+databases. However, every ounce of power you grant introduces a corresponding measure of 
+risk. The primary security concerns are rogue actions—unintended or harmful behaviors—
+
+Introduction to Agents and Agent architectures
+November 2025
+35
+and sensitive data disclosure. You want to give your agent a leash long enough to do its 
+job, but short enough to keep it from running into traffic, especially when that traffic involves 
+irreversible actions or your company's private data.32
+To manage this, you cannot rely solely on the AI model's judgment, as it can be manipulated 
+by techniques like prompt injection33. Instead, the best practice is a hybrid, defense-in-
+depth approach.34 The first layer consists of traditional, deterministic guardrails—a set of 
+hardcoded rules that act as a security chokepoint outside the model's reasoning. This could 
+be a policy engine that blocks any purchase over $100 or requires explicit user confirmation 
+before the agent can interact with an external API. This layer provides predictable, auditable 
+hard limits on the agent's power.
+The second layer leverages reasoning-based defenses, using AI to help secure AI. This 
+involves training the model to be more resilient to attacks (adversarial training) and employing 
+smaller, specialized "guard models" that act like security analysts. These models can examine 
+the agent's proposed plan before it's executed, flagging potentially risky or policy-violating 
+steps for review. This hybrid model, combining the rigid certainty of code with the contextual 
+awareness of AI, creates a robust security posture for even a single agent, ensuring its power 
+is always aligned with its purpose.
+Agent Identity: A New Class of Principal
+In the traditional security model, there are human users which might use OAuth or SSO, 
+and there are services which use IAM or service accounts. Agents add a 3rd category of 
+principle. An agent is not merely a piece of code; it is an autonomous actor, a new kind of 
+principal that requires its own verifiable identity. Just as employees are issued an ID badge, 
+each agent on the platform must be issued a secure, verifiable "digital passport." This Agent 
+
+Introduction to Agents and Agent architectures
+November 2025
+36
+Identity is distinct from the identity of the user who invoked it and the developer who built it. 
+This is a fundamental shift in how we must approach Identity and Access Management (IAM) 
+in the enterprise.
+Having each identity be verified and having access controls for all of them, is the bedrock 
+of agent security. Once an agent has a cryptographically verifiable identity (often using 
+standards like SPIFFE35), it can be granted its own specific, least-privilege permissions. The 
+SalesAgent is granted read/write access to the CRM, while the HRonboardingAgent is 
+explicitly denied. This granular control is critical. It ensures that even if a single agent is 
+compromised or behaves unexpectedly, the potential blast radius is contained. Without 
+an agent identity construct, agents cannot work on behalf of humans with limited 
+delegated authority.
+ 
+ 
+Table 1: A non-exhaustive example of different categories of actors for authentication
+Principal entity
+Authentication / Verification
+Notes
+Users
+Authenticated with OAuth 
+or SSO
+Human actors with full 
+autonomy and responsibility for 
+their actions
+Agents (new category of 
+principles)
+Verified with SPIFFE
+Agents have delegated 
+authority, taking actions on 
+behalf of users
+Service accounts
+Integrated into IAM
+Applications and containers, 
+fully deterministic, no 
+responsible for actions
+
+Introduction to Agents and Agent architectures
+November 2025
+37
+Policies to Constrain Access
+A policy is a form of authorization (AuthZ), distinct from authentication (AuthN). Typically, 
+policies limit the capabilities of a principal; for example, “Users in Marketing can only access 
+these 27 API endpoints and cannot execute DELETE commands.” As we develop agents, we 
+need to apply permissions to the agents, their tools, other internal agents, context they can 
+share, and remote agents. Think about it this way: if you add all the APIs, data, tools, and 
+agents to your system, then you must constrain access to a subset of just those capabilities 
+required to get their jobs done. This is the recommended approach: applying the principle of 
+least privilege while remaining contextually relevant.36
+Securing an ADK Agent
+With the core principles of identity and policy established, securing an agent built with the 
+Agent Development Kit (ADK) becomes a practical exercise in applying those concepts 
+through code and configuration37. 
+As described above, the process requires a clear definition of identities: user account (for 
+example OAuth), service account (to run code), agent identity (to use delegated authority). 
+Once authentication is handled, the next layer of defense involves establishing policies to 
+constrain access to services.  This is often done at the API governance layer, along with 
+governance supporting MCP and A2A services. 
+The next layer is building guardrails into your tools, models, and sub-agents to enforce 
+policies. This ensures that no matter what the LM reasons or what a malicious prompt 
+might suggest, the tool's own logic will refuse to execute an unsafe or out-of-policy action. 
+This approach provides a predictable and auditable security baseline, translating abstract 
+security policies into concrete, reliable code38.
+
+Introduction to Agents and Agent architectures
+November 2025
+38
+For more dynamic security that can adapt to the agent's runtime behavior, ADK provides 
+Callbacks and Plugins. A before_tool_callback allows you to inspect the parameters 
+of a tool call before it runs, validating them against the agent's current state to prevent 
+misaligned actions. For more reusable policies, you can build plugins. A common pattern is a 
+"Gemini as a Judge"39 that uses a fast, inexpensive model like Gemini Flash-Lite or your own 
+fine-tuned Gemma model to screen user inputs and agent outputs for prompt injections or 
+harmful content in real time.
+For organizations that prefer a fully managed, enterprise-grade solution for these dynamic 
+checks, Model Armor can be integrated as an optional service. Model Armor acts as a 
+specialized security layer that screens prompts and responses for a wide range of threats, 
+including prompt injection, jailbreak attempts, sensitive data (PII) leakage, and malicious 
+URLs40. By offloading these complex security tasks to a dedicated service, developers can 
+ensure consistent, robust protection without having to build and maintain these guardrails 
+themselves. This hybrid approach within ADK—combining strong identity, deterministic in-tool 
+logic, dynamic AI-powered guardrails, and optional managed services like Model Armor—is 
+how you build a single agent that is both powerful and trustworthy. 
+ 
+ 
+
+Introduction to Agents and Agent architectures
+November 2025
+39
+ 
+Figure 6: Security and Agents from https://saif.google/focus-on-agents 
+Scaling Up from a Single Agent to an Enterprise Fleet
+The production success of a single AI agent is a triumph. Scaling to a fleet of hundreds 
+is a challenge of architecture. If you are building one or two agents, your concerns are 
+primarily about security. If you are building many agents, you must design systems to handle 
+much more. Just like API sprawl, when agents and tools proliferate across an organization, 
+
+
+[IMAGE_6: image_006_page_39_1.png - 位于第 39 页]
+
+
+Introduction to Agents and Agent architectures
+November 2025
+40
+they create a new, complex network of interactions, data flows, and potential security 
+vulnerabilities. Managing this complexity requires a higher-order governance layer integrating 
+all your identities and policies and reporting into a central control plane.
+Security and Privacy: Hardening the Agentic Frontier
+An enterprise-grade platform must address the unique security and privacy challenges 
+inherent to generative AI, even when only a single agent is running. The agent itself becomes 
+a new attack vector. Malicious actors can attempt prompt injection to hijack the agent's 
+instructions, or data poisoning to corrupt the information it uses for training or RAG. 
+Furthermore, a poorly constrained agent could inadvertently leak sensitive customer data or 
+proprietary information in its responses.
+A robust platform provides a defense-in-depth strategy to mitigate these risks. It starts with 
+the data, ensuring that an enterprise's proprietary information is never used to train base 
+models and is protected by controls like VPC Service Controls. It requires input and output 
+filtering, acting like a firewall for prompts and responses. Finally, the platform must offer 
+contractual protections like intellectual property indemnity for both the training data and the 
+generated output, giving enterprises the legal and technical confidence they need to deploy 
+agents in production.
+Agent Governance: A Control Plane instead of Sprawl
+As agents and their tools proliferate across an organization, they create a new, complex 
+network of interactions and potential vulnerabilities, a challenge often called "agent sprawl." 
+Managing this requires moving beyond securing individual agents to implementing a higher-
+order architectural approach: a central gateway that serves as a control plane for all 
+agentic activity.
+
+Introduction to Agents and Agent architectures
+November 2025
+41
+Imagine a bustling metropolis with thousands of autonomous vehicles—users, agents, and 
+tools—all moving with purpose. Without traffic lights, license plates and a central control 
+system, chaos would reign. The gateway approach creates that control system, establishing 
+a mandatory entry point for all agentic traffic, including user-to-agent prompts or UI 
+interactions, agent-to-tool calls (via MCP), agent-to-agent collaborations (via A2A), and direct 
+inference requests to LMs. By sitting at this critical intersection, an organization can inspect, 
+route, monitor, and manage every interaction.
+This control plane serves two primary, interconnected functions:
+1.	 Runtime Policy Enforcement: It acts as the architectural chokepoint for implementing 
+security. It handles authentication ("Do I know who this actor is?") and authorization ("Do 
+they have permission to do this?"). Centralizing enforcement provides a "single pane of 
+glass" for observability, creating common logs, metrics, and traces for every transaction. 
+This transforms the spaghetti of disparate agents and workflows into a transparent and 
+auditable system.
+2.	Centralized Governance: To enforce policies effectively, the gateway needs a source 
+of truth. This is provided by a central registry—an enterprise app store for agents and 
+tools. This registry allows developers to discover and reuse existing assets, preventing 
+redundant work, while giving administrators a complete inventory. More importantly, 
+it enables a formal lifecycle for agents and tools, allowing for security reviews before 
+publication, versioning, and the creation of fine-grained policies that dictate which 
+business units can access which agents.
+By combining a runtime gateway with a central governance registry, an organization 
+transforms the risk of chaotic sprawl into a managed, secure, and efficient ecosystem.
+
+Introduction to Agents and Agent architectures
+November 2025
+42
+Cost and Reliability: The Infrastructure Foundation
+Ultimately, enterprise-grade agents must be both reliable and cost-effective. An agent 
+that frequently fails or provides slow results has a negative ROI. Conversely, an agent 
+that is prohibitively expensive cannot scale to meet business demands. The underlying 
+infrastructure must be designed to manage this trade-off, securely and with regulatory and 
+data sovereignty compliance. 
+In some cases, the feature you need is scale-to-zero, when you have irregular traffic to 
+a specific agent or sub-function. For mission-critical, latency-sensitive workloads, the 
+platform must offer dedicated, guaranteed capacity, such as Provisioned Throughput41 for 
+LM services or 99.9% Service Level Agreements (SLAs) for runtimes like Cloud Run42. This 
+provides a predictable performance, ensuring that your most important agents are always 
+responsive, even under heavy load. By providing this spectrum of infrastructure options, 
+coupled with comprehensive monitoring for both cost and performance, you establish the 
+final, essential foundation for scaling AI agents from a promising innovation into a core, 
+reliable component of the enterprise.
+How agents evolve and learn
+Agents deployed in the real world operate in dynamic environments where policies, 
+technologies, and data formats are constantly changing. Without the ability to adapt, 
+an agent's performance will degrade over time—a process often called "aging"—leading 
+to a loss of utility and trust. Manually updating a large fleet of agents to keep pace with 
+these changes is uneconomical and slow. A more scalable solution is to design agents 
+that can learn and evolve autonomously, improving their quality on the job with minimal 
+engineering effort.43
+
+Introduction to Agents and Agent architectures
+November 2025
+43
+How agents learn and self evolve
+Much like humans, agents learn from experience and external signals. This learning process is 
+fueled by several sources of information:
+•	 Runtime Experience: Agents learn from runtime artifacts such as session logs, 
+traces, and memory, which capture successes, failures, tool interactions, and decision 
+trajectories. Crucially, this includes Human-in-the-Loop (HITL) feedback, which provides 
+authoritative corrections and guidance.
+•	 External Signals: Learning is also driven by new external documents, such as updated 
+enterprise policies, public regulatory guidelines, or critiques from other agents.
+This information is then used to optimize the agent’s future behavior. Instead of simply 
+summarizing past interactions, advanced systems create generalizable artifacts to guide 
+future tasks. The most successful adaptation techniques fall into two categories:
+•	 Enhanced Context Engineering: The system continuously refines its prompts, few-
+shot examples, and the information it retrieves from memory. By optimizing the context 
+provided to the LM for each task, it increases the likelihood of success.
+•	 Tool Optimization and Creation: The agent’s reasoning can identify gaps in its 
+capabilities and act to fill them. This can involve gaining access to a new tool, creating a 
+new one on the fly (e.g., a Python script), or modifying an existing tool (e.g., updating an 
+API schema).
+Additional optimization techniques, such as dynamically reconfiguring multi-agent design 
+patterns or using Reinforcement Learning from Human Feedback (RLHF), are active areas 
+of research.
+
+Introduction to Agents and Agent architectures
+November 2025
+44
+Example: Learning New Compliance Guidelines
+Consider an enterprise agent operating in a heavily regulated industry like finance or life 
+sciences. Its task is to generate reports that must comply with privacy and regulatory rules 
+(e.g., GDPR).
+This can be implemented using a multi-agent workflow:
+1.	 A Querying Agent retrieves raw data in response to a user request.
+2.	 A Reporting Agent synthesizes this data into a draft report.
+3.	 A Critiquing Agent, armed with known compliance guidelines, reviews the report. If it 
+encounters ambiguity or requires final sign-off, it escalates to a human domain expert.
+4.	 A Learning Agent observes the entire interaction, paying special attention to the 
+corrective feedback from the human expert. It then generalizes this feedback into a new, 
+reusable guideline (e.g., an updated rule for the critiquing agent or refined context for the 
+reporting agent).
+
+Introduction to Agents and Agent architectures
+November 2025
+45
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 7: Sample multi agent workflow for compliance guidelines
+For instance, if a human expert flags that certain household statistics must be anonymized, 
+the Learning Agent records this correction. The next time a similar report is generated, 
+the Critiquing Agent will automatically apply this new rule, reducing the need for human 
+intervention. This loop of critique, human feedback, and generalization allows the system to 
+autonomously adapt to evolving compliance requirements44.
+
+
+[IMAGE_7: image_007_page_45_1.png - 位于第 45 页]
+
+
+Introduction to Agents and Agent architectures
+November 2025
+46
+Simulation and Agent Gym - the next frontier
+The design pattern we presented can be categorized as in-line learning, where agents 
+need to learn with the resources and design pattern they were engineered with. More 
+advanced approaches are now being researched, where there is a dedicated platform that is 
+engineered to optimize the multi-agent system in offline processes with advanced tooling and 
+capabilities, which are not part of the multi-agent run-time environment. The key attributes of 
+such an Agent Gym45 are:
+1.	 It is not in the execution path. It is a standalone off-production platform, and therefore can 
+have the assistance of any LM model, and offline tools, cloud application and more
+2.	 It offers a simulation environment, so the agent can ‘exercise’ on new data and learn. This 
+simulation environment is excellent for ‘trial-and-error’ with many optimizations pathways
+3.	 It can call advance synthetic data generators, which guide the simulation to be as real as 
+possible, and pressure test the agent (this can include advance techniques, such as red-
+teaming, dynamic evaluation and a family of critiquing agents)
+4.	 The arsenal of the optimization tools is not fixed, and it can adopt new tools (either 
+through open protocols such as MCP or A2A), or in a more advanced setting - learn new 
+concepts and craft tools around them
+5.	 Finally, even constructs such as Agent Gym, may not be able to overcome certain edge-
+case (due to the well known problem of ‘tribal knowledge’ in the enterprise). In those cases 
+we see the Agent Gym able to connect to the human fabric of domain experts, and consult 
+with them on the right set of outcomes to guide the next set of optimizations

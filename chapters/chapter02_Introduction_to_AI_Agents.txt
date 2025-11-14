@@ -1,0 +1,157 @@
+================================================================================
+Introduction to AI Agents
+================================================================================
+页码: 8 - 13
+图片数量: 1
+================================================================================
+
+Introduction to Agents and Agent architectures
+November 2025
+8
+Words are insufficient to describe how humans interact with AI. We tend to 
+anthropomorphize and use human terms like “think” and “reason” and “know.” We don't 
+yet have words for "know with semantic meaning" vs "know with high probability of 
+maximizing a reward function." Those are two different types of knowing, but the results 
+are the same 99.X% of the time.
+Introduction to AI Agents
+In the simplest terms, an AI Agent can be defined as the combination of models, tools, an 
+orchestration layer, and runtime services which uses the LM in a loop to accomplish a goal. 
+These four elements form the essential architecture of any autonomous system.
+•	 The Model (The "Brain"): The core language model (LM) or foundation model that serves 
+as the agent's central reasoning engine to process information, evaluate options, and 
+make decisions. The type of model (general-purpose, fine-tuned, or multimodal) dictates 
+the agent's cognitive capabilities.  An agentic system is the ultimate curator of the input 
+context window the LM.
+•	 Tools (The "Hands"): These mechanisms connect the agent's reasoning to the outside 
+world, enabling actions beyond text generation. They include API extensions, code 
+functions, and data stores (like databases or vector stores) for accessing real-time, factual 
+information.  An agentic system allows a LM to plan which tools to use, executes the tool, 
+and puts the tool results into the  input context window of the next LM call.
+•	 The Orchestration Layer (The "Nervous System"): The governing process that 
+manages the agent's operational loop. It handles planning, memory (state), and reasoning 
+strategy execution. This layer uses prompting frameworks and reasoning techniques (like 
+
+Introduction to Agents and Agent architectures
+November 2025
+9
+Chain-of-Thought4 or ReAct5) to break down complex goals into steps and decide when 
+to think versus use a tool. This layer is also responsible for giving agents the memory 
+to "remember."
+•	 Deployment (The "Body and Legs"): While building an agent on a laptop is effective for 
+prototyping, production deployment is what makes it a reliable and accessible service. 
+This involves hosting the agent on a secure, scalable server and integrating it with 
+essential production services for monitoring, logging, and management. Once deployed, 
+the agent can be accessed by users through a graphical interface or programmatically by 
+other agents via an Agent-to-Agent (A2A) API.
+At the end of the day, building a generative AI agent is a new way to develop solutions to 
+solve tasks. The traditional developer acts as a "bricklayer," precisely defining every logical 
+step. The agent developer, in contrast, is more like a director. Instead of writing explicit code 
+for every action, you set the scene (the guiding instructions and prompts), select the cast 
+(the tools and APIs), and provide the necessary context (the data). The primary task becomes 
+guiding this autonomous "actor" to deliver the intended performance.
+You'll quickly find that an LM's greatest strength—its incredible flexibility—is also your biggest 
+headache. A large language model's capacity to do anything makes it difficult to compel it to 
+do one specific thing reliably and perfectly. What we used to call “prompt engineering” and 
+now call “context engineering” guides LMs to generate the desired output. For any single 
+call to a LM, we input our instructions, facts, available tools to call, examples, session history, 
+user profile, etc – filling the context window with just the right information to get the outputs 
+we need. Agents are software which manage the inputs of LMs to get work done.
+Debugging becomes essential when issues arise. "Agent Ops" essentially redefines the 
+familiar cycle of measurement, analysis, and system optimization. Through traces and logs, 
+you can monitor the agent's "thought process" to identify deviations from the intended 
+execution path. As models evolve and frameworks improve, the developer's role is to furnish 
+
+Introduction to Agents and Agent architectures
+November 2025
+10
+critical components: domain expertise, a defined personality, and seamless integration 
+with the tools necessary for practical task completion. It's crucial to remember that 
+comprehensive evaluations and assessments often outweigh the initial prompt's influence.
+When an agent is precisely configured with clear instructions, reliable tools, and an 
+integrated context serving as memory, a great user interface, the ability to plan and problem 
+solve, and general world knowledge, it transcends the notion of mere "workflow automation." 
+It begins to function as a collaborative entity: a highly efficient, uniquely adaptable, and 
+remarkably capable new member of your team.
+In essence, an agent is a system dedicated to the art of context window curation. It 
+is a relentless loop of assembling context, prompting the model, observing the result, 
+and then re-assembling a context for the next step. The context may include system 
+instructions, user input, session history, long term memories, grounding knowledge from 
+authoritative sources, what tools could be used, and the results of tools already invoked. 
+This sophisticated management of the model's attention allows its reasoning capabilities 
+to problem solve for novel circumstances and accomplish objectives.
+The Agentic Problem-Solving Process
+We have defined an AI agent as a complete, goal-oriented application that integrates a 
+reasoning model, actionable tools, and a governing orchestration layer. A short version is 
+“LMs in a loop with tools to accomplish an objective.” 
+But how does this system actually work? What does an agent do from the moment it receives 
+a request to the moment it delivers a result? 
+
+Introduction to Agents and Agent architectures
+November 2025
+11
+At its core, an agent operates on a continuous, cyclical process to achieve its objectives. 
+While this loop can become highly complex, it can be broken down into five fundamental 
+steps as discussed in detail in the book Agentic System Design:6
+1.	 Get the Mission: The process is initiated by a specific, high-level goal. This mission is 
+provided by a user (e.g., "Organize my team's travel for the upcoming conference") or an 
+automated trigger (e.g., "A new high-priority customer ticket has arrived").
+2.	Scan the Scene: The agent perceives its environment to gather context. This involves 
+the orchestration layer accessing its available resources: "What does the user's request 
+say?", "What information is in my term memory? Did I already try to do this task? Did the 
+user give me guidance last week?", "What can I access from my tools, like calendars, 
+databases, or APIs?"
+3.	 Think It Through: This is the agent's core "think" loop, driven by the reasoning model. The 
+agent analyzes the Mission (Step 1) against the Scene (Step 2) and devises a plan. This 
+isn't a single thought, but often a chain of reasoning: "To book travel, I first need to know 
+who is on the team. I will use the get_team_roster tool. Then I will need to check their 
+availability via the calendar_api."
+4.	Take Action: The orchestration layer executes the first concrete step of the plan. 
+It selects and invokes the appropriate tool—calling an API, running a code function, 
+or querying a database. This is the agent acting on the world beyond its own 
+internal reasoning.
+5.	Observe and Iterate: The agent observes the outcome of its action. The get_
+team_roster tool returns a list of five names. This new information is added to the 
+agent's context or "memory." The loop then repeats, returning to Step 3: "Now that I 
+have the roster, my next step is to check the calendar for these five people. I will use 
+the calendar_api."
+
+Introduction to Agents and Agent architectures
+November 2025
+12
+This "Think, Act, Observe" cycle continues - managed by the Orchestration Layer, reasoned 
+by the Model, and executed by the Tools until the agent's internal plan is complete and the 
+initial Mission is achieved.
+ 
+ 
+ 
+ 
+Figure 1: Agentic AI problem-solving process
+Let’s take a real-world example of how a Customer Support Agent would operate in this 
+5-step cycle:
+Imagine a user asks, "Where is my order #12345?"
+
+
+[IMAGE_1: image_001_page_12_1.png - 位于第 12 页]
+
+
+Introduction to Agents and Agent architectures
+November 2025
+13
+Instead of immediately acting, the agent first enters its "Think It Through" phase to devise a 
+complete strategy. It reasons: 
+"The user wants a delivery status. To provide a complete answer, I need a multi-step plan:
+1.	 Identify: I must first find the order in our internal database to confirm it exists and get 
+its details.
+2.	Track: From those details, I'll need to extract the shipping carrier's tracking number. Then, 
+I'll query the external carrier's API for the live status.
+3.	Report: Finally, I must synthesize the information I've gathered into a clear, helpful 
+response for the user."
+With this multi-step plan in mind, the agent begins execution.
+In its first "Act" phase, it executes step one of its plan, calling the find_order("12345") 
+tool. It observes the result—a full order record, including the tracking number "ZYX987."
+The agent's orchestration layer recognizes that the first part of its plan is complete 
+and immediately proceeds to the second. It acts by calling the get_shipping_
+status("ZYX987") tool. It observes the new result: "Out for Delivery."
+Finally, having successfully executed the data-gathering stages of its plan, the agent 
+moves to the "Report" step. It perceives it has all the necessary components, plans the final 
+message, and acts by generating the response: "Your order #12345 is 'Out for Delivery'!

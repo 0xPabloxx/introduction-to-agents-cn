@@ -1,0 +1,91 @@
+================================================================================
+Examples of advanced agents
+================================================================================
+页码: 47 - 50
+图片数量: 4
+================================================================================
+
+Introduction to Agents and Agent architectures
+November 2025
+47
+Examples of advanced agents
+Google Co-Scientist
+Co-Scientist is an advanced AI agent designed to function as a virtual research collaborator, 
+accelerating scientific discovery by systematically exploring complex problem spaces. It 
+enables researchers to define a goal, ground the agent in specified public and proprietary 
+knowledge sources, and then generate and evaluate a landscape of novel hypotheses.
+In order to be able to achieve this, Co-Scientist spawns a whole ecosystem of agents 
+collaborating with each other. 
+Figure 8: The AI co-scientist design system
+
+
+[IMAGE_8: image_008_page_47_1.png - 位于第 47 页]
+
+
+Introduction to Agents and Agent architectures
+November 2025
+48
+Think of the system as a research project manager. The AI first takes a broad research 
+goal and creates a detailed project plan. A "Supervisor" agent then acts as the manager, 
+delegating tasks to a team of specialized agents and distributing resources like computing 
+power. This structure ensures the project can easily scale up and that the team's methods 
+improve as they work toward the final goal.
+ 
+ 
+Figure 9: Co-scientist multi agent workflow
+The various agents work for hours, or even days, and keep improving the generated 
+hypotheses, running loops and meta loops that improve not only the generated ideas, but 
+also the way that we judge and create new ideas. 
+
+
+[IMAGE_9: image_009_page_48_1.png - 位于第 48 页]
+
+
+Introduction to Agents and Agent architectures
+November 2025
+49
+AlphaEvolve Agent
+Another example of an advanced agentis system is AlphaEvolve, an AI agent that discovers 
+and optimizes algorithms for complex problems in mathematics and computer science.
+AlphaEvolve works by combining the creative code generation of our Gemini language 
+models with an automated evaluation system. It uses an evolutionary process: the AI 
+generates potential solutions, an evaluator scores them, and the most promising ideas are 
+used as inspiration for the next generation of code.
+This approach has already led to significant breakthroughs, including:
+•	 Improving the efficiency of Google's data centers, chip design, and AI training.
+•	 Discovering faster matrix multiplication algorithms.
+•	 Finding new solutions to open mathematical problems.
+AlphaEvolve excels at problems where verifying the quality of a solution is far easier than 
+finding it in the first place. 
+ 
+ 
+ 
+ 
+ 
+Figure 10: Alpha Evolve design system
+
+
+[IMAGE_10: image_010_page_49_1.png - 位于第 49 页]
+
+
+Introduction to Agents and Agent architectures
+November 2025
+50
+AlphaEvolve is designed for a deep, iterative partnership between humans and AI. This 
+collaboration works in two main ways:
+•	 Transparent Solutions: The AI generates solutions as human-readable code. This 
+transparency allows users to understand the logic, gain insights, trust the results, and 
+directly modify the code for their needs.
+•	 Expert Guidance: Human expertise is essential for defining the problem. Users guide the 
+AI by refining evaluation metrics and steering the exploration, which prevents the system 
+from exploiting unintended loopholes in the problem's definition. This interactive loop 
+ensures the final solutions are both powerful and practical.
+The result of the agent is a continuous improvement of the code that keeps improving the 
+metrics specified by the human.  
+ 
+ 
+Figure 11: Algorithm evolution
+
+
+[IMAGE_11: image_011_page_50_1.png - 位于第 50 页]
+
