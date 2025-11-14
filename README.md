@@ -44,10 +44,10 @@ This project is a **bilingual Chinese-English translation** of "Introduction to 
 | 03 | [A Taxonomy of Agentic Systems<br/><mark>智能体系统分类</mark>](03-A-Taxonomy-of-Agentic-Systems.md) | 14-18 (5页) | 1 | ✅ |
 | 04 | [Core Agent Architecture: Model, Tools, and Orchestration<br/><mark>核心智能体架构：模型、工具与编排</mark>](04-Core-Agent-Architecture.md) | 19-46 (28页) | 5 | ✅ |
 | 05 | [Examples of Advanced Agents<br/><mark>高级智能体案例</mark>](05-Examples-of-Advanced-Agents.md) | 47-50 (4页) | 4 | ✅ |
-| 06 | [Conclusion<br/><mark>总结</mark>](06-Conclusion.md) | 51 (1页) | 0 | ⏳ |
-| 07 | [Endnotes<br/><mark>尾注</mark>](07-Endnotes.md) | 52-54 (3页) | 0 | ⏳ |
+| 06 | [Conclusion<br/><mark>总结</mark>](06-Conclusion.md) | 51 (1页) | 0 | ✅ |
+| 07 | [Endnotes<br/><mark>尾注</mark>](07-Endnotes.md) | 52-54 (3页) | 0 | ✅ |
 
-**翻译进度**: 5/7 章节 (71%)
+**翻译进度**: 7/7 章节 (100%) 🎉
 
 ---
 
