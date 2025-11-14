@@ -41,13 +41,13 @@ This project is a **bilingual Chinese-English translation** of "Introduction to 
 |------|------|------|--------|------|
 | 01 | [From Predictive AI to Autonomous Agents<br/><mark>从预测性 AI 到自主智能体</mark>](01-From-Predictive-AI-to-Autonomous-Agents.md) | 6-7 (2页) | 0 | ✅ |
 | 02 | [Introduction to AI Agents<br/><mark>AI 智能体简介</mark>](02-Introduction-to-AI-Agents.md) | 8-13 (6页) | 1 | ✅ |
-| 03 | [A Taxonomy of Agentic Systems<br/><mark>智能体系统分类</mark>](03-A-Taxonomy-of-Agentic-Systems.md) | 14-18 (5页) | 1 | ⏳ |
+| 03 | [A Taxonomy of Agentic Systems<br/><mark>智能体系统分类</mark>](03-A-Taxonomy-of-Agentic-Systems.md) | 14-18 (5页) | 1 | ✅ |
 | 04 | [Core Agent Architecture: Model, Tools, and Orchestration<br/><mark>核心智能体架构：模型、工具与编排</mark>](04-Core-Agent-Architecture.md) | 19-46 (28页) | 5 | ⏳ |
 | 05 | [Examples of Advanced Agents<br/><mark>高级智能体案例</mark>](05-Examples-of-Advanced-Agents.md) | 47-50 (4页) | 4 | ⏳ |
 | 06 | [Conclusion<br/><mark>总结</mark>](06-Conclusion.md) | 51 (1页) | 0 | ⏳ |
 | 07 | [Endnotes<br/><mark>尾注</mark>](07-Endnotes.md) | 52-54 (3页) | 0 | ⏳ |
 
-**翻译进度**: 2/7 章节 (29%)
+**翻译进度**: 3/7 章节 (43%)
 
 ---
 
@@ -144,6 +144,8 @@ English paragraph here.
 
 ## 📚 相关资源 | Related Resources
 
+- **原书链接 (Original Book)**: https://www.kaggle.com/whitepaper-introduction-to-agents
+- **原 PDF 文件 (Original PDF)**: [Introduction to Agents.pdf](source/Introduction_to_Agents.pdf)
 - **GitHub 仓库**: https://github.com/0xPabloxx/introduction-to-agents-cn
 - **AI Agents in Action 中文翻译**: https://github.com/0xPabloxx/ai-agents-in-action-cn
 - **Agentic Design Patterns 中文翻译**: https://github.com/ginobefun/agentic-design-patterns-cn

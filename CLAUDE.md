@@ -237,8 +237,18 @@ The book covers:
 
 ## Resources
 
+- **Original Book Link**: https://www.kaggle.com/whitepaper-introduction-to-agents
+- **Original PDF**: source/Introduction_to_Agents.pdf
 - **GitHub Repository**: https://github.com/0xPabloxx/introduction-to-agents-cn
 - **Related Project - AI Agents in Action**: https://github.com/0xPabloxx/ai-agents-in-action-cn
 - **Related Project - Agentic Design Patterns**: https://github.com/ginobefun/agentic-design-patterns-cn
 - **Image Index**: chapters/image_index.md
 - **Progress Tracking**: README.md
+
+## Working Permissions
+
+**IMPORTANT**: The developer has granted 100% permission to work autonomously:
+1. No need to ask for permissions - work continuously without stopping
+2. After completing all translations, ensure all images are positioned correctly in their corresponding markdown files
+3. All images have already been extracted and positioned during translation - verify their placement
+4. Focus on maintaining translation quality and consistency throughout
