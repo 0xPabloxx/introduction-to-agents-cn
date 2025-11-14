@@ -8,8 +8,8 @@ env/
 venv/
 ENV/
 
-# PDF files (keep in source/)
-*.pdf
+# PDF files (allow source PDFs)
+# *.pdf - commented out to allow source PDFs
 
 # macOS
 .DS_Store
